@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "WebWorker",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "declaration": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "rootDir": ".",
+        "allowJs": true,
+        "outDir": "build",
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "skipLibCheck": true,
+        "noUnusedLocals": false,
+        "noLib": false,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "types": ["jest", "node"]
+    },
+    "include": ["src/**/*", "**/*.spec.ts", "**/*.types.ts"],
+    "exclude": ["node_modules", "explorations", "scripts"]
+}
