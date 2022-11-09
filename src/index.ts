@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createWooksCtx, createWooksResponder, useCacheStore, useWooksCtx, innerCacheSymbols } from '@wooksjs/composables'
-import { FastifyInstance } from 'fastify'
+import { FastifyInstance, RouteOptions } from 'fastify'
 
 const methods = [
     'get', 'post', 'put', 'head', 'delete', 'patch', 'options',
 ]
 
-export function applyFastiyfAdapter(app: FastifyInstance) {
+export function applyFastifyAdapter(app: FastifyInstance) {
     const responder = createWooksResponder()
 
     function useWooksDecorator(fn: () => unknown) {
@@ -15,9 +15,10 @@ export function applyFastiyfAdapter(app: FastifyInstance) {
             try {
                 const result = await fn()
                 restoreCtx()
-                responder.respond(result)
+                await responder.respond(result)
             } catch (e) {
-                responder.respond(e)
+                restoreCtx()
+                await responder.respond(e)
             }
             clearCtx()
         }
@@ -43,6 +44,16 @@ export function applyFastiyfAdapter(app: FastifyInstance) {
         }).bind(app)
         Object.defineProperty(app, m, { value: newFn })
     }
+    const m = 'route'
+    const defFn = app[m].bind(app)
+    const newFn = ((opts: RouteOptions) => {
+        const newOpts = {
+            ...opts,
+            handler: useWooksDecorator(opts.handler as () => unknown),
+        }
+        return defFn(newOpts)
+    }).bind(app)
+    Object.defineProperty(app, m, { value: newFn })
 }
 
 function dummyBodyParser(req: any, body: any, done: (err: null, body: any) => void) {
