@@ -1,3 +1,12 @@
+## [0.0.1-alpha.1](https://github.com/wooksjs/fastify-adapter/compare/v0.0.1-alpha.0...v0.0.1-alpha.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* decorate route fn ([e3199cd](https://github.com/wooksjs/fastify-adapter/commit/e3199cdcbb2c9460369fb988983c673b3c36a935))
+
+
+
 ## 0.0.1-alpha.0 (2022-11-08)
 
 
