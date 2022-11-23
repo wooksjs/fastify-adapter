@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createWooksCtx, createWooksResponder, useCacheStore, useWooksCtx, innerCacheSymbols } from '@wooksjs/composables'
+import { createHttpContext, createWooksResponder, useHttpContext } from '@wooksjs/event-http'
 import { FastifyInstance, RouteOptions } from 'fastify'
 
 const methods = [
@@ -11,7 +11,8 @@ export function applyFastifyAdapter(app: FastifyInstance) {
 
     function useWooksDecorator(fn: () => unknown) {
         return async () => {
-            const { restoreCtx, clearCtx } = useWooksCtx()
+            console.log('enter wooks decorator')
+            const { restoreCtx, clearCtx } = useHttpContext()
             try {
                 const result = await fn()
                 restoreCtx()
@@ -30,9 +31,11 @@ export function applyFastifyAdapter(app: FastifyInstance) {
     app.addContentTypeParser('application/json', parseOptions, dummyBodyParser)
 
     app.addHook('preHandler', (req, res, done) => {
-        createWooksCtx({ req: req.raw, res: res.raw, params: req.params as Record<string, string> || {} })
-        const { set } = useCacheStore(innerCacheSymbols.request)
-        set('rawBody', Promise.resolve(req.body))
+        console.log('preHandler')
+        const { restoreCtx, store } = createHttpContext({ req: req.raw, res: res.raw })
+        store('routeParams').value = req.params as Record<string, string | string[]>
+        store('request').hook('rawBody').value = Promise.resolve(req.body) as Promise<Buffer>
+        restoreCtx()
         done()
     })
 

@@ -59,7 +59,7 @@
   },
   "homepage": "https://github.com/wooksjs/fastify-adapter#readme",
   "peerDependencies": {
-    "@wooksjs/composables": "^0.0.1-alpha.12",
+    "@wooksjs/event-http": "^0.1.0",
     "fastify": "^4.0.0"
   },
   "devDependencies": {
@@ -68,7 +68,8 @@
     "@types/node": "^18.11.0",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "@wooksjs/composables": "^0.0.1-alpha.12",
+    "@wooksjs/event-http": "^0.1.0",
+    "@wooksjs/http-body": "^0.1.0",
     "conventional-changelog": "^3.1.24",
     "conventional-changelog-cli": "^2.1.1",
     "enquirer": "^2.3.6",

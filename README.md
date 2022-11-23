@@ -9,29 +9,28 @@
 </a>
 </p>
 
-Want to use [Wooks Composables](https://github.com/wooksjs/composables) but your project is coupled with fastify? ✅ This is not a problem with this Fastify Adapter for [Wooks Composables](https://github.com/wooksjs/composables)
-
-🔥 Get power of [Wooks Composables](https://github.com/wooksjs/composables) in your fastify project!
+Want to use [@wooksjs/event-http](https://www.npmjs.com/package/@wooksjs/event-http) but your project is coupled with fastify? ✅ This is not a problem with this Fastify Adapter for [wooks](https://www.npmjs.com/package/wooks)
 
 ## Install
 
-`npm install @wooksjs/fastify-adapter @wooksjs/composables`
+`npm install @wooksjs/fastify-adapter @wooksjs/event-http`
 
 ## Usage
 
 ```ts
 import fastify from 'fastify'
 import { applyFastifyAdapter } from '@wooksjs/fastify-adapter'
-import { useBody } from '@wooksjs/body'
-import { useRouteParams, WooksError } from '@wooksjs/composables'
+import { useBody } from '@wooksjs/http-body'
+import { WooksError } from '@wooksjs/event-http'
+import { useRouteParams } = from '@wooksjs/event-core'
 
 const app = fastify()
 
 applyFastifyAdapter(app)
 
 app.get('/test/:param', () => {
-    const { getRouteParam } = useRouteParams()
-    return { message: 'it works', param: getRouteParam('param') }
+    const { get } = useRouteParams()
+    return { message: 'it works', param: get('param') }
 })
 
 app.post('/post', () => {
