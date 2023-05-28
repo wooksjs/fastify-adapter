@@ -1,6 +1,7 @@
 import { createHttpContext, HttpError, TWooksHttpOptions, WooksHttp } from '@wooksjs/event-http'
 import { FastifyInstance, RouteHandlerMethod } from 'fastify'
 import { IncomingMessage, Server, ServerResponse } from 'http'
+import { ListenOptions } from 'net'
 import { TWooksHandler } from 'wooks'
 
 export class WooksFastify extends WooksHttp {
@@ -9,7 +10,12 @@ export class WooksFastify extends WooksHttp {
         fastifyApp.all('*', this.getServerCb() as unknown as RouteHandlerMethod)
     }
 
-    public async listen(...args: Parameters<Server['listen']>) {
+    public listen(...args: Parameters<Server['listen']>) {
+        this.fastifyApp.listen({
+            port: (typeof (args[0]) === 'number' ? args[0] : args[0] && (args[0] as ListenOptions).port || undefined) as number,
+            host: (typeof (args[1]) === 'string' ? args[1] : args[0] && (args[0] as ListenOptions).host || undefined) as string,
+            backlog: (typeof (args[1]) === 'number' ? args[1] : args[0] && (args[0] as ListenOptions).backlog || undefined) as number,
+        }, args.find(a => typeof a === 'function') as (err: Error | null, address: string) => void)
         const server = this.server = this.fastifyApp.server
         return new Promise((resolve, reject) => {
             server.once('listening', resolve)
@@ -18,12 +24,12 @@ export class WooksFastify extends WooksHttp {
     }
 
     getServerCb() {
-        return (async (request: { req: IncomingMessage }, reply: { res: ServerResponse, callNotFound: () => void }) => {
+        return (async (request: { raw: IncomingMessage }, reply: { raw: ServerResponse, callNotFound: () => void }) => {
             const { restoreCtx, clearCtx } = createHttpContext(
-                { req: request.req, res: reply.res },
+                { req: request.raw, res: reply.raw },
                 this.mergeEventOptions(this.opts?.eventOptions),
             )
-            const { handlers } = this.wooks.lookup(request.req.method as string, request.req.url as string)
+            const { handlers } = this.wooks.lookup(request.raw.method as string, request.raw.url as string)
             if (handlers || this.opts?.onNotFound) {
                 try {
                     await this.processHandlers(handlers || [this.opts?.onNotFound as TWooksHandler])
@@ -39,7 +45,7 @@ export class WooksFastify extends WooksHttp {
             } else {
                 // not found
                 this.logger.debug(
-                    `404 Not found (${request.req.method as string})${request.req.url as string
+                    `404 Not found (${request.raw.method as string})${request.raw.url as string
                     }`
                 )
                 if (this.opts?.raise404) {
