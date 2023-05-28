@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/wooksjs/fastify-adapter/compare/v0.2.0...v0.2.1) (2023-05-28)
+
+
+### Bug Fixes
+
+* fix fastify adapter ([1eeb775](https://github.com/wooksjs/fastify-adapter/commit/1eeb775c2322da7e2aaa776414b8fd97d80632c0))
+
+
+
 # [0.2.0](https://github.com/wooksjs/fastify-adapter/compare/v0.1.0...v0.2.0) (2023-05-28)
 
 
