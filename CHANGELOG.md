@@ -1,3 +1,12 @@
+# [0.2.0](https://github.com/wooksjs/fastify-adapter/compare/v0.1.0...v0.2.0) (2023-05-28)
+
+
+### Features
+
+* add WooksFastify ([61eb624](https://github.com/wooksjs/fastify-adapter/commit/61eb624738842ba433c751db69d968a6da4ece60))
+
+
+
 # [0.1.0](https://github.com/wooksjs/fastify-adapter/compare/v0.0.1-alpha.1...v0.1.0) (2022-11-23)
 
 
