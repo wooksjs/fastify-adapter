@@ -13,7 +13,7 @@ export class WooksFastify extends WooksHttp {
     public listen(...args: Parameters<Server['listen']>) {
         this.fastifyApp.listen({
             port: (typeof (args[0]) === 'number' ? args[0] : args[0] && (args[0] as ListenOptions).port || undefined) as number,
-            host: (typeof (args[1]) === 'string' ? args[1] : args[0] && (args[0] as ListenOptions).host || undefined) as string,
+            host: (typeof (args[1]) === 'string' ? args[1] : args[0] && (args[0] as ListenOptions).host || '::') as string,
             backlog: (typeof (args[1]) === 'number' ? args[1] : args[0] && (args[0] as ListenOptions).backlog || undefined) as number,
         }, args.find(a => typeof a === 'function') as (err: Error | null, address: string) => void)
         const server = this.server = this.fastifyApp.server
