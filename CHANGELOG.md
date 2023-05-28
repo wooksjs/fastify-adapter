@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/wooksjs/fastify-adapter/compare/v0.2.1...v0.3.0) (2023-05-28)
+
+
+### Bug Fixes
+
+* supply default host :: ([2db9269](https://github.com/wooksjs/fastify-adapter/commit/2db9269c5768378dd98aa4998526a43249c31332))
+
+
+
 ## [0.2.1](https://github.com/wooksjs/fastify-adapter/compare/v0.2.0...v0.2.1) (2023-05-28)
 
 
