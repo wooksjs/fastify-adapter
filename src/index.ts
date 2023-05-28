@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createHttpContext, createWooksResponder, useHttpContext } from '@wooksjs/event-http'
+import { TWooksHttpOptions, createHttpContext, createWooksResponder, useHttpContext } from '@wooksjs/event-http'
 import { FastifyInstance, RouteOptions } from 'fastify'
 
 const methods = [
     'get', 'post', 'put', 'head', 'delete', 'patch', 'options',
 ]
 
-export function applyFastifyAdapter(app: FastifyInstance) {
+export function applyFastifyAdapter(app: FastifyInstance, eventOptions?: TWooksHttpOptions['eventOptions']) {
     const responder = createWooksResponder()
 
     function useWooksDecorator(fn: () => unknown) {
@@ -32,7 +32,7 @@ export function applyFastifyAdapter(app: FastifyInstance) {
 
     app.addHook('preHandler', (req, res, done) => {
         console.log('preHandler')
-        const { restoreCtx, store } = createHttpContext({ req: req.raw, res: res.raw })
+        const { restoreCtx, store } = createHttpContext({ req: req.raw, res: res.raw }, eventOptions || {})
         store('routeParams').value = req.params as Record<string, string | string[]>
         store('request').hook('rawBody').value = Promise.resolve(req.body) as Promise<Buffer>
         restoreCtx()
@@ -62,3 +62,5 @@ export function applyFastifyAdapter(app: FastifyInstance) {
 function dummyBodyParser(req: any, body: any, done: (err: null, body: any) => void) {
     done(null, body)
 }
+
+export * from './wooks-fastify'
