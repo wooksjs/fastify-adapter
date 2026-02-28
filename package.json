@@ -1,6 +1,6 @@
 {
     "name": "@wooksjs/fastify-adapter",
-    "version": "1.0.0",
+    "version": "0.7.0",
     "description": "Fastify Adapter for Wooks — use Wooks composables with Fastify",
     "keywords": [
         "adapter",
@@ -50,6 +50,7 @@
     },
     "devDependencies": {
         "@types/node": "^22.0.0",
+        "@wooksjs/event-core": "^0.7.4",
         "@wooksjs/event-http": "^0.7.4",
         "fastify": "^5.0.0",
         "oxfmt": "^0.35.0",
@@ -60,6 +61,7 @@
         "wooks": "^0.7.4"
     },
     "peerDependencies": {
+        "@wooksjs/event-core": ">=0.7.0",
         "@wooksjs/event-http": ">=0.7.0",
         "fastify": ">=4.0.0",
         "wooks": ">=0.7.0"
